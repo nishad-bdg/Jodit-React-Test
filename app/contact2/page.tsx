@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-const JoditTextEditor = dynamic(() => import("@/components/JoditEditor"))
+const JoditTextEditor = dynamic(() => import("@/components/JoditEditor"), {
+  ssr: false,
+})
 
 const ContactPage = () => {
   const [value, setValue] = useState<string>("")
