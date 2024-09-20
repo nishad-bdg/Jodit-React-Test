@@ -1,6 +1,8 @@
 "use client"
-import JoditEditor from "jodit-react"
+
 import React, { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
+const JoditTextEditor = dynamic(() => import("@/components/JoditEditor"))
 
 const ContactPage = () => {
   const [value, setValue] = useState<string>("")
@@ -8,10 +10,9 @@ const ContactPage = () => {
     e.preventDefault()
   }
 
-
   useEffect(() => {
-    console.info('value', value)
-  },[value])
+    console.info("value", value)
+  }, [value])
 
   return (
     <form
@@ -25,7 +26,7 @@ const ContactPage = () => {
         className="py-3 placeholder:px-3"
         placeholder="Name"
       />
-      <JoditEditor value="" onChange={(val: string) => setValue(val)} />
+      <JoditTextEditor value="" onChange={setValue} />
       {/* <input
         name="email"
         className="py-3 placeholder:px-3"
