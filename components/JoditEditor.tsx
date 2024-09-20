@@ -55,6 +55,12 @@ const JoditTextEditor: React.FC<JoditTextEditorProps> = ({
 `
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Browser-specific code (e.g., accessing self or window)
+    }
+  }, [])
+
+  useEffect(() => {
     if (editor.current && isClient) {
       editor.current.setValue(value)
     }
