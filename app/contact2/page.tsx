@@ -1,20 +1,22 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from "react"
-import dynamic from "next/dynamic"
-const JoditTextEditor = dynamic(() => import("@/components/JoditEditor"), {
-  ssr: false,
-})
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const JoditTextEditor = dynamic(() => import("@/components/JoditTextEditor"), {
+  ssr: false, // Ensure this is only loaded on the client side
+});
 
 const ContactPage = () => {
-  const [value, setValue] = useState<string>("")
-  const onSubmit = (e: any) => {
-    e.preventDefault()
-  }
+  const [value, setValue] = useState<string>("");
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
 
   useEffect(() => {
-    console.info("value", value)
-  }, [value])
+    console.info("value", value);
+  }, [value]);
 
   return (
     <form
@@ -28,43 +30,12 @@ const ContactPage = () => {
         className="py-3 placeholder:px-3"
         placeholder="Name"
       />
-      <JoditTextEditor value="" onChange={setValue} />
-      {/* <input
-        name="email"
-        className="py-3 placeholder:px-3"
-        placeholder="Email"
-      />
-      <input
-        name="address"
-        className="py-3 placeholder:px-3"
-        placeholder="Address"
-      />
-      <input name="city" className="py-3 placeholder:px-3" placeholder="City" />
-      <input
-        name="zipCode"
-        className="py-3 placeholder:px-3"
-        placeholder="Zip Code"
-      />
-      <input
-        name="phone"
-        className="py-3 placeholder:px-3"
-        placeholder="Phone"
-      />
-      <input
-        name="queryType"
-        className="py-3 placeholder:px-3"
-        placeholder="Query Type"
-      />
-      <input
-        name="message"
-        className="py-3 placeholder:px-3"
-        placeholder="Message"
-      /> */}
+      <JoditTextEditor value={value} onChange={setValue} />
       <button type="submit" className="py-3 px-2 bg-slate-700 rounded-lg">
         Submit
       </button>
     </form>
-  )
-}
+  );
+};
 
-export default ContactPage
+export default ContactPage;

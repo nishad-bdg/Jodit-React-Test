@@ -17,11 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <script
+      {/* <script
         async
         defer
         src="http://localhost:8080/neutrix.js?siteId=neueIMljpCa"
-      ></script>
+      ></script> */}
       <body className={inter.className}>
         <Navbar />
         {children}
