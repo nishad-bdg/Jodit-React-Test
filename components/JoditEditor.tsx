@@ -1,6 +1,11 @@
 import React, { useRef, useMemo, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 
+// Dynamically import Jodit editor, disabling SSR to prevent server-side rendering issues
+const DynamicJoditEditor = dynamic(() => import("jodit-react"), {
+  ssr: false,
+})
+
 interface JoditTextEditorProps {
   value: string
   onChange: (content: string) => void
@@ -8,10 +13,6 @@ interface JoditTextEditorProps {
   label?: string
   className?: string
 }
-
-const DynamicJoditEditor = dynamic(() => import("jodit-react"), {
-  ssr: false,
-})
 
 const JoditTextEditor: React.FC<JoditTextEditorProps> = ({
   value,
@@ -21,12 +22,13 @@ const JoditTextEditor: React.FC<JoditTextEditorProps> = ({
   className = "",
 }) => {
   const [isClient, setIsClient] = useState(false)
-  const editor = useRef<any | null>(null)
+  const editorRef = useRef<any | null>(null)
 
   useEffect(() => {
     setIsClient(true)
   }, [])
 
+  // Memoize editor configuration
   const config = useMemo(
     () => ({
       readonly: false,
@@ -37,35 +39,25 @@ const JoditTextEditor: React.FC<JoditTextEditorProps> = ({
     [placeholder]
   )
 
+  // Custom styling for Jodit editor
   const customStyle = `
-  .jodit-wysiwyg {
-    color: #000 !important;
-    caret-color: #000 !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-  }
-  .jodit-toolbar {
-    background-color: #333 !important;
-    border: none !important;
-  }
-  .jodit-toolbar-button {
-    color: #fff !important;
-  }
-`
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Browser-specific code (e.g., accessing self or window)
+    .jodit-wysiwyg {
+      color: #000 !important;
+      caret-color: #000 !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
     }
-  }, [])
-
-  useEffect(() => {
-    if (editor.current && isClient) {
-      editor.current.setValue(value)
+    .jodit-toolbar {
+      background-color: #333 !important;
+      border: none !important;
     }
-  }, [value, isClient])
+    .jodit-toolbar-button {
+      color: #fff !important;
+    }
+  `
 
+  // Handle editor content change
   const handleChange = (newContent: string) => {
     onChange(newContent)
   }
@@ -79,11 +71,11 @@ const JoditTextEditor: React.FC<JoditTextEditorProps> = ({
           <DynamicJoditEditor
             value={value}
             config={config}
-            ref={editor}
+            ref={editorRef}
             onChange={handleChange}
             onBlur={() => {
-              if (editor.current) {
-                handleChange(editor.current.getValue())
+              if (editorRef.current) {
+                handleChange(editorRef.current.value)
               }
             }}
           />
