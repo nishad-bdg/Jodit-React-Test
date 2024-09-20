@@ -1,12 +1,17 @@
 "use client"
 import JoditEditor from "jodit-react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 const ContactPage = () => {
   const [value, setValue] = useState<string>("")
   const onSubmit = (e: any) => {
     e.preventDefault()
   }
+
+
+  useEffect(() => {
+    console.info('value', value)
+  },[value])
 
   return (
     <form
